@@ -84,7 +84,7 @@ class OAuth2AuthorizationFlow::SimpleJsonData {
  public:
   SimpleJsonData() {}
   googleapis::util::Status Init(const string& json);
-  string InitFromContainer(const string& json);
+  string InitFromContainer(const string& json, bool service);
   bool GetString(const char* field, string* value) const;
   bool GetScalar(const char* field, int* value) const;
   bool GetBool(const char* field, bool* value) const;
@@ -690,7 +690,7 @@ OAuth2AuthorizationFlow::MakeFlowFromClientSecretsJson(
   }
 
   SimpleJsonData data;
-  string root_name = data.InitFromContainer(json, service_);
+  string root_name = data.InitFromContainer(json, false);
   if (root_name.empty()) {
     *status = StatusInvalidArgument("Invalid JSON");
     return NULL;
