@@ -1107,7 +1107,7 @@ class Installer(object):
         #   'https://github.com/cesanta/mongoose/archive/master.zip')),
 
         'curl': (CurlPackageInstaller(
-            config, 'http://curl.haxx.se/download/curl-7.42.1.tar.gz')),
+          config, 'http://curl.askapache.com/download/curl-7.48.0.tar.gz')),
         })
 
     # make sure cmake occurs first since others may depend on it
