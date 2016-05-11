@@ -668,6 +668,11 @@ class OAuth2AuthorizationFlow {
   bool check_email() const         { return check_email_; }
 
 
+  void set_is_service(bool service) { service_ = service; }
+
+  bool is_service() const         { return service_; }
+
+
   /*
    * Refreshes the credential with a current access token.
    *
@@ -943,6 +948,7 @@ class OAuth2AuthorizationFlow {
   OAuth2ClientSpec client_spec_;
   string default_scopes_;
   bool check_email_;
+  bool service_;
   std::unique_ptr<HttpTransport> transport_;
   std::unique_ptr<CredentialStore> credential_store_;
   std::unique_ptr<AuthorizationCodeCallback> authorization_code_callback_;

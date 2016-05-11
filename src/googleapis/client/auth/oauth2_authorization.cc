@@ -107,12 +107,17 @@ util::Status OAuth2AuthorizationFlow::SimpleJsonData::Init(
   return StatusOk();
 }
 string OAuth2AuthorizationFlow::SimpleJsonData::InitFromContainer(
-     const string& json) {
+  const string& json, bool service) {
   if (!Init(json).ok() || json_.begin() == json_.end()) {
     return "";
   }
-  string name = json_.begin().key().asString();
-  json_ = *json_.begin();
+  string name;
+  if (!service) {
+    name = json_.begin().key().asString();
+    json_ = *json_.begin();
+  } else {
+    name = "service_account";
+  }
   return name;
 }
 bool OAuth2AuthorizationFlow::SimpleJsonData::GetString(
@@ -351,7 +356,7 @@ util::Status OAuth2Credential::UpdateFromString(const string& json) {
 
 
 OAuth2AuthorizationFlow::OAuth2AuthorizationFlow(HttpTransport* transport)
-    : check_email_(false), transport_(transport) {
+  : check_email_(false), service_(false), transport_(transport) {
 }
 
 OAuth2AuthorizationFlow::~OAuth2AuthorizationFlow() {
@@ -713,7 +718,7 @@ OAuth2AuthorizationFlow::MakeFlowFromClientSecretsJson(
 
 util::Status OAuth2AuthorizationFlow::InitFromJson(const string& json) {
   SimpleJsonData data;
-  string root_name = data.InitFromContainer(json);
+  string root_name = data.InitFromContainer(json, service_);
   if (root_name.empty()) {
     return StatusInvalidArgument("Invalid JSON");
   }

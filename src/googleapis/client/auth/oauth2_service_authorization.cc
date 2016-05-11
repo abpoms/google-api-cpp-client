@@ -53,6 +53,7 @@ namespace client {
 OAuth2ServiceAccountFlow::OAuth2ServiceAccountFlow(
     HttpTransport* transport)
     : OAuth2AuthorizationFlow(transport) {
+  set_is_service(true);
 }
 
 OAuth2ServiceAccountFlow::~OAuth2ServiceAccountFlow() {
