@@ -690,7 +690,7 @@ OAuth2AuthorizationFlow::MakeFlowFromClientSecretsJson(
   }
 
   SimpleJsonData data;
-  string root_name = data.InitFromContainer(json);
+  string root_name = data.InitFromContainer(json, service_);
   if (root_name.empty()) {
     *status = StatusInvalidArgument("Invalid JSON");
     return NULL;
