@@ -22,8 +22,9 @@
 #include <string>
 using std::string;
 
+#include "googleapis/strings/stringpiece.h"
 #include "googleapis/util/status.h"
-#include <openssl/base.h>
+#include <openssl/evp.h>
 namespace googleapis {
 
 namespace client {

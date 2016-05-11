@@ -33,7 +33,7 @@
 #include "googleapis/client/util/uri_utils.h"
 #include "googleapis/client/util/status.h"
 #include <glog/logging.h>
-#include "googleapis/strings/escaping.h"
+#include "googleapis/strings/stringpiece.h"
 #include "googleapis/strings/strcat.h"
 #include "googleapis/util/file.h"
 #include <openssl/ossl_typ.h>

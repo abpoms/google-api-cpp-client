@@ -19,13 +19,15 @@
 #include <string>
 using std::string;
 #include "googleapis/client/auth/jwt_builder.h"
+
 #include "googleapis/client/util/status.h"
-#include "googleapis/strings/escaping.h"
 #include "googleapis/strings/strcat.h"
+#include "googleapis/client/util/escaping.h"
+
+#include <glog/logging.h>
 
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
-#include <openssl/digest.h>
 #include <openssl/err.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
@@ -33,7 +35,11 @@ using std::string;
 #include <openssl/stack.h>
 #include <openssl/x509.h>
 
+#include <memory>
+
 namespace googleapis {
+
+using namespace googleapis_util;
 
 namespace client {
 
@@ -65,7 +71,7 @@ util::Status JwtBuilder::LoadPrivateKeyFromPkcs12Path(
 
 void JwtBuilder::AppendAsBase64(const char* data, size_t size, string* to) {
   string encoded;
-  strings::WebSafeBase64Escape(
+  WebSafeBase64Escape(
       reinterpret_cast<const unsigned char*>(data), size, &encoded, false);
   to->append(encoded);
 }

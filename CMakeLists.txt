@@ -22,12 +22,12 @@ set(GOOGLEAPIS_INSTALL_INCLUDE_DIR
 
 # BUILD_SHARED_LIBS is a standard CMake variable, but we declare it here to
 # make it prominent since we are turning it off by default.
-option(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)
+option(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." ON)
 option(gtest_force_shared_crt "Force Gmock to use standard compiler flags" ON)
 
 option(googleapis_build_tests "Build all of googleapis' own tests." OFF)
-option(googleapis_build_samples "Build googleapis sample programs." ON)
-option(googleapis_build_service_apis "Build specialized service APIs." OFF)
+option(googleapis_build_samples "Build googleapis sample programs." OFF)
+option(googleapis_build_service_apis "Build specialized service APIs." ON)
 option(googleapis_build_mongoose "Build mongoose webserver APIs." OFF)
 
 if(NOT DEFINED GOOGLEAPIS_EXTERNAL_DEPENDENCIES_DIR)

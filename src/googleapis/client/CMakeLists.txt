@@ -151,13 +151,16 @@ install(FILES transport/json_playback_transport.h
         DESTINATION ${GOOGLEAPIS_INSTALL_INCLUDE_DIR}/client)
 
 # Implementation of OAuth2
-add_library(googleapis_oauth2 STATIC auth/oauth2_authorization.cc)
+add_library(googleapis_oauth2 STATIC auth/oauth2_authorization.cc 
+                                     auth/oauth2_service_authorization.cc
+                                     auth/jwt_builder.cc)
 target_link_libraries(googleapis_oauth2 ${GLOG_LIBRARY})
 target_link_libraries(googleapis_oauth2 googleapis_http)
 target_link_libraries(googleapis_oauth2 googleapis_internal)
 target_link_libraries(googleapis_oauth2 jsoncpp)
 install(TARGETS googleapis_oauth2 DESTINATION ${GOOGLEAPIS_INSTALL_LIB_DIR})
 install(FILES auth/oauth2_authorization.h
+              auth/oauth2_service_authorization.h
         DESTINATION ${GOOGLEAPIS_INSTALL_INCLUDE_DIR}/client/auth)
 
 if (HAVE_OPENSSL)

@@ -36,7 +36,6 @@ using std::ostream;  // NOLINT
 #endif
 #include "googleapis/client/transport/curl_http_transport.h"
 #include "googleapis/client/transport/http_transport.h"
-#include "googleapis/client/util/mongoose_webserver.h"
 #include "googleapis/client/util/status.h"
 
 #include <glog/logging.h>
