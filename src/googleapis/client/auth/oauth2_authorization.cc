@@ -112,11 +112,11 @@ string OAuth2AuthorizationFlow::SimpleJsonData::InitFromContainer(
     return "";
   }
   string name;
-  if (!service) {
+  if (service) {
+    name = "service_account";
+  } else {
     name = json_.begin().key().asString();
     json_ = *json_.begin();
-  } else {
-    name = "service_account";
   }
   return name;
 }
