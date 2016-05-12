@@ -449,7 +449,7 @@ class PackageInstaller(object):
           config.abs_install_dir, self._extra_ldflags)
       cppflags = '-I%s/include %s' % (
           config.abs_install_dir, self._extra_cppflags)
-      cmd = 'LDFLAGS="%s" CPPFLAGS="%s" LIBS="-ldl" '%s %s' % (
+      cmd = 'LDFLAGS="%s" CPPFLAGS="%s" LIBS="-ldl" %s %s' % (
           ldflags, cppflags, configure_cmd, prefix_arg)
 
     if cmd:
