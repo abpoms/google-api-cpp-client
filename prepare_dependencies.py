@@ -1027,6 +1027,7 @@ class CurlPackageInstaller(PackageInstaller):
       config_type = CMAKE_CONFIG
     else:
       config_type = CONFIGURE_CONFIG
+    self._extra_configure_flags = '--with-ssl'
     super(CurlPackageInstaller, self).__init__(
         config, url, config_type=config_type)
 
