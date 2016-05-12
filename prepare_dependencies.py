@@ -1029,7 +1029,7 @@ class CurlPackageInstaller(PackageInstaller):
       config_type = CONFIGURE_CONFIG
     super(CurlPackageInstaller, self).__init__(
         config, url, config_type=config_type)
-    self._extra_configure_flags = '--with-ssl'
+    self._extra_configure_flags = '--with-ssl `pwd`/../install'
 
 
 class Installer(object):
