@@ -449,7 +449,7 @@ class PackageInstaller(object):
           config.abs_install_dir, self._extra_ldflags)
       cppflags = '-I%s/include %s' % (
           config.abs_install_dir, self._extra_cppflags)
-      cmd = 'LDFLAGS="%s" CPPFLAGS="%s" %s %s' % (
+      cmd = 'LDFLAGS="%s" CPPFLAGS="%s" LIBS="-ldl" '%s %s' % (
           ldflags, cppflags, configure_cmd, prefix_arg)
 
     if cmd:
@@ -1029,7 +1029,8 @@ class CurlPackageInstaller(PackageInstaller):
       config_type = CONFIGURE_CONFIG
     super(CurlPackageInstaller, self).__init__(
         config, url, config_type=config_type)
-    self._extra_configure_flags = '--with-ssl `pwd`/../install'
+    self._extra_configure_flags = (
+      '--with-ssl="`pwd`/../install" --disable-shared ')
 
 
 class Installer(object):
