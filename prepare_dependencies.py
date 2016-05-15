@@ -960,38 +960,38 @@ class GLogPackageInstaller(PackageInstaller):
     """Tweaks a header file declaration under windows so it compiles."""
     super(GLogPackageInstaller, self).MaybeTweakAfterUnpackage()
 
-    remove_cygwin_paths = [
-    ]
-    for change_path in remove_cygwin_paths:
-      changed = False
-      with open(change_path, 'r') as f:
-        old_text = f.read()
-        # The source couple windows and cygwin together for some reason,
-        # but that doesnt compile. CYGWIN appears to work if you take these
-        # out (it will use pthreads instead of the windows API).
-        text = old_text.replace('defined(OS_WINDOWS) || defined(OS_CYGWIN)',
-                                'defined(OS_WINDOWS)')
-        text = text.replace('defined OS_WINDOWS || defined OS_CYGWIN',
-                            'defined(OS_WINDOWS)')
-        changed = old_text != text
-      if changed:
-        with open(change_path, 'w') as f:
-          f.write(text)
-        print 'Hacked %s' % change_path
+    # remove_cygwin_paths = [
+    # ]
+    # for change_path in remove_cygwin_paths:
+    #   changed = False
+    #   with open(change_path, 'r') as f:
+    #     old_text = f.read()
+    #     # The source couple windows and cygwin together for some reason,
+    #     # but that doesnt compile. CYGWIN appears to work if you take these
+    #     # out (it will use pthreads instead of the windows API).
+    #     text = old_text.replace('defined(OS_WINDOWS) || defined(OS_CYGWIN)',
+    #                             'defined(OS_WINDOWS)')
+    #     text = text.replace('defined OS_WINDOWS || defined OS_CYGWIN',
+    #                         'defined(OS_WINDOWS)')
+    #     changed = old_text != text
+    #   if changed:
+    #     with open(change_path, 'w') as f:
+    #       f.write(text)
+    #     print 'Hacked %s' % change_path
 
-    logging_h_path = os.path.join(
-        self._package_path, 'src', 'windows', 'glog', 'logging.h')
-    changed = False
-    with open(logging_h_path, 'r') as f:
-      old_text = f.read()
-      text = old_text.replace('class LogStreamBuf',
-                              'class GOOGLE_GLOG_DLL_DECL LogStreamBuf')
-      changed = old_text != text
+    # logging_h_path = os.path.join(
+    #     self._package_path, 'src', 'windows', 'glog', 'logging.h')
+    # changed = False
+    # with open(logging_h_path, 'r') as f:
+    #   old_text = f.read()
+    #   text = old_text.replace('class LogStreamBuf',
+    #                           'class GOOGLE_GLOG_DLL_DECL LogStreamBuf')
+    #   changed = old_text != text
 
-    if changed:
-      with open(logging_h_path, 'w') as f:
-        f.write(text)
-      print 'Hacked %s' % logging_h_path
+    # if changed:
+    #   with open(logging_h_path, 'w') as f:
+    #     f.write(text)
+    #   print 'Hacked %s' % logging_h_path
 
   def Install(self):
     """Overrides install to copy the generated headers and libs."""
