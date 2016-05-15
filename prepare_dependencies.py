@@ -961,8 +961,6 @@ class GLogPackageInstaller(PackageInstaller):
     super(GLogPackageInstaller, self).MaybeTweakAfterUnpackage()
 
     remove_cygwin_paths = [
-        os.path.join(self._package_path, 'src', 'googletest.h'),
-        os.path.join(self._package_path, 'src', 'utilities.cc')
     ]
     for change_path in remove_cygwin_paths:
       changed = False
