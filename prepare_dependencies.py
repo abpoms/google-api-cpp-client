@@ -960,6 +960,14 @@ class GLogPackageInstaller(PackageInstaller):
     """Tweaks a header file declaration under windows so it compiles."""
     super(GLogPackageInstaller, self).MaybeTweakAfterUnpackage()
 
+    config_file = os.path.join(self._package_path, 'configure')
+    with open(config_file, 'r') as f:
+      old_text = f.read()
+      text = old_text.replace('ac_cv_lib_gflags_main=yes',
+                              'ac_cv_lib_gflags_main=no')
+    with open(config_file, 'w') as f:
+      f.write(text)
+
     # remove_cygwin_paths = [
     # ]
     # for change_path in remove_cygwin_paths:
