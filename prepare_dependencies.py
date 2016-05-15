@@ -1079,14 +1079,13 @@ class Installer(object):
         # GFlags is only used for some examples.
         # Only used for tests and samples.
         'gflags': (GFlagsPackageInstaller(
-            config,
-            'http://gflags.googlecode.com/files'
-            '/gflags-2.0-no-svn-files.tar.gz')),
+          config,
+          'https://github.com/gflags/gflags/archive/v2.1.2.zip')),
 
         # GLog is the logging mechanism used through the client API
         'glog': (GLogPackageInstaller(
-            config,
-            'http://google-glog.googlecode.com/files/glog-0.3.3.tar.gz')),
+          config,
+          'https://github.com/google/glog/archive/v0.3.4.zip')),
 
         # GMock (and included GTest) are only used for tests, not runtime
         # Only used for tests.
