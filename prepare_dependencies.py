@@ -868,9 +868,6 @@ class GFlagsPackageInstaller(PackageInstaller):
       os.makedirs(install_libdir)
     if not os.path.exists(install_includedir):
       os.makedirs(install_includedir)
-    PackageInstaller.CopyAllFiles(
-        os.path.join(self._package_path, 'src', 'windows', 'gflags'),
-        install_includedir)
     release_dir = os.path.join(self._package_path,
                                'vsprojects', 'libgflags', 'Release')
     for ext in ['lib', 'dll', 'pdb']:
