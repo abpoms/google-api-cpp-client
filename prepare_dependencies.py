@@ -1038,7 +1038,7 @@ class CurlPackageInstaller(PackageInstaller):
     super(CurlPackageInstaller, self).__init__(
         config, url, config_type=config_type)
     self._extra_configure_flags = (
-      '--with-ssl="`pwd`/../install" --disable-shared ')
+      '--with-ssl="`pwd`/../install" --disable-shared --disable-ldap')
 
 
 class Installer(object):
