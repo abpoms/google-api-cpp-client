@@ -433,9 +433,9 @@ class PackageInstaller(object):
     elif config_type == CONFIGURE_CONFIG:
       # Normally the automake uses a script called 'configure'
       # but for some reason openssl calls it 'Configure'.
-      configure_cmd = os.path.join('.', 'configure')
+      configure_cmd = "bash " + os.path.join('.', 'configure')
       if not os.path.exists(configure_cmd):
-        configure_cmd = os.path.join('.', 'Configure')
+        configure_cmd = "bash " + os.path.join('.', 'Configure')
 
       prefix_arg = '--prefix="%s" %s' % (
           config.abs_install_dir, self._extra_configure_flags)
