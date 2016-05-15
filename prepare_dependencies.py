@@ -958,15 +958,17 @@ class GLogPackageInstaller(PackageInstaller):
 
   def MaybeTweakAfterUnpackage(self):
     """Tweaks a header file declaration under windows so it compiles."""
-    super(GLogPackageInstaller, self).MaybeTweakAfterUnpackage()
-
-    config_file = os.path.join(self._package_path, 'configure')
-    with open(config_file, 'r') as f:
-      old_text = f.read()
-      text = old_text.replace('ac_cv_lib_gflags_main=yes',
-                              'ac_cv_lib_gflags_main=no')
-    with open(config_file, 'w') as f:
-      f.write(text)
+    config_files = [
+      os.path.join(self._package_path, 'configure.ac'),
+      os.path.join(self._package_path, 'configure'),
+    ]
+    for c_file in config_files:
+      with open(c_file, 'r') as f:
+        old_text = f.read()
+        text = old_text.replace('ac_cv_have_libgflags=1',
+                              'ac_cv_have_libgflags=0')
+      with open(c_file, 'w') as f:
+        f.write(text)
 
     # remove_cygwin_paths = [
     # ]
