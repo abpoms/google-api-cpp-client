@@ -841,9 +841,10 @@ class OpenSslPackageInstaller(PackageInstaller):
 class GFlagsPackageInstaller(PackageInstaller):
   """Custom installer for the GFlags package."""
 
-  def __init__(self, config, url):
+  def __init__(self, config, url, package_name=''):
     """Standard PackageInstaller initializer."""
-    super(GFlagsPackageInstaller, self).__init__(config, url)
+    super(GFlagsPackageInstaller, self).__init__(
+      config, url, package_name=package_name)
     self._archive_file = self._archive_file.replace('-no-svn-files', '')
     self._package_name = self._package_name.replace('-no-svn-files', '')
     self._package_path = self._package_path.replace('-no-svn-files', '')
@@ -942,14 +943,15 @@ class GMockPackageInstaller(PackageInstaller):
 class GLogPackageInstaller(PackageInstaller):
   """Custom installer for the GLog package."""
 
-  def __init__(self, config, url):
+  def __init__(self, config, url, package_name=''):
     """Standard PackageInstaller initializer.
 
     Args:
       config: (ConfigInfo) Configuration information.
       url: (string)  The URL to download from.
     """
-    super(GLogPackageInstaller, self).__init__(config, url)
+    super(GLogPackageInstaller, self).__init__(
+      config, url, package_name=package_name)
     self._msbuild_args = '/p:Configuration=Release;Platform=x86'
     self._vc_upgrade_from_project_path = (
         '%s\\vsprojects\\libglog\\libglog.vcproj' % self._package_path)
@@ -1078,12 +1080,14 @@ class Installer(object):
         # Only used for tests and samples.
         'gflags': (GFlagsPackageInstaller(
           config,
-          'https://github.com/gflags/gflags/archive/v2.1.2.zip')),
+          'https://github.com/gflags/gflags/archive/v2.1.2.zip',
+          package_name="gflags-2.1.2")),
 
         # GLog is the logging mechanism used through the client API
         'glog': (GLogPackageInstaller(
           config,
-          'https://github.com/google/glog/archive/v0.3.4.zip')),
+          'https://github.com/google/glog/archive/v0.3.4.zip',
+          package_name="glog-0.3.4")),
 
         # GMock (and included GTest) are only used for tests, not runtime
         # Only used for tests.
