@@ -989,7 +989,7 @@ class GLogPackageInstaller(PackageInstaller):
     os.chmod(install_shell_path, st.st_mode | stat.S_IEXEC)
 
     os.chdir(self._package_path)
-    PackageInstaller.RunOrDie("automake")
+    PackageInstaller.RunOrDie("automake", "run automake failed")
 
     # remove_cygwin_paths = [
     # ]
