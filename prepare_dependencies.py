@@ -46,15 +46,28 @@ Usage:
     a dependency, simply change the url in this file and run this
     script again on that name with the --force flag.
 """
+import ssl
+from functools import wraps
+def sslwrap(func):
+    @wraps(func)
+    def bar(*args, **kw):
+        kw['ssl_version'] = ssl.PROTOCOL_TLSv1
+        return func(*args, **kw)
+    return bar
+
+ssl.wrap_socket = sslwrap(ssl.wrap_socket)
+
+
 import getopt
 import glob
 import os
+import stat
 import platform
 import shutil
 import subprocess
 import sys
 import tarfile
-import urllib
+import urllib2
 import zipfile
 
 COMPILED_MARKER = '_built'
@@ -303,7 +316,16 @@ class PackageInstaller(object):
 
     print 'Downloading %s from %s: ' % (filename, url)
     try:
-      urllib.urlretrieve(url, download_path, _DownloadStatusHook)
+      req = urllib.Request(url)
+      req.add_header(
+        'User-Agent',
+        ('Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:38.0) '
+         'Gecko/20100101 Firefox/38.0')
+      )
+      r = urllib2.urlopen(req)
+      html = r.read()
+      with open(download_path, 'w') as f:
+        f.write(html)
     except IOError:
       print ('\nERROR:\n'
              'Could not download %s.\n' % url
@@ -970,6 +992,20 @@ class GLogPackageInstaller(PackageInstaller):
       with open(c_file, 'w') as f:
         f.write(text)
 
+    ac_file = os.path.join(self._package_path, 'aclocal.m4')
+    with open(ac_file, 'r') as f:
+      old_text = f.read()
+      text = old_text.replace(
+        "am__api_version='1.14'",
+        "am__api_version=`aclocal --version|head -n1|grep -oE '[0-9]+.[0-9]+$'`"
+      )
+    with open(ac_file, 'w') as f:
+      f.write(text)
+
+    install_shell_path = os.path.join(self._package_path, 'install-sh')
+    st = os.stat(install_shell_path)
+    os.chmod(install_shell_path, st.st_mode | stat.S_IEXEC)
+
     # remove_cygwin_paths = [
     # ]
     # for change_path in remove_cygwin_paths:
@@ -1080,7 +1116,7 @@ class Installer(object):
           # The OpenSslCodec is not requird so if you get an https transport
           # from somewhere else then you do not need this dependency.
           'openssl': (OpenSslPackageInstaller(
-              config, 'http://www.openssl.org/source/openssl-1.0.1m.tar.gz')),
+              config, 'https://www.openssl.org/source/openssl-1.0.1m.tar.gz')),
           })
 
     self._url_map.update({
