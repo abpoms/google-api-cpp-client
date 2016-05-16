@@ -46,18 +46,6 @@ Usage:
     a dependency, simply change the url in this file and run this
     script again on that name with the --force flag.
 """
-import ssl
-from functools import wraps
-def sslwrap(func):
-    @wraps(func)
-    def bar(*args, **kw):
-        kw['ssl_version'] = ssl.PROTOCOL_TLSv1
-        return func(*args, **kw)
-    return bar
-
-ssl.wrap_socket = sslwrap(ssl.wrap_socket)
-
-
 import getopt
 import glob
 import os
@@ -67,7 +55,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
-import urllib2
+import urllib
 import zipfile
 
 COMPILED_MARKER = '_built'
@@ -316,16 +304,7 @@ class PackageInstaller(object):
 
     print 'Downloading %s from %s: ' % (filename, url)
     try:
-      req = urllib2.Request(url)
-      req.add_header(
-        'User-Agent',
-        ('Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:38.0) '
-         'Gecko/20100101 Firefox/38.0')
-      )
-      r = urllib2.urlopen(req)
-      html = r.read()
-      with open(download_path, 'w') as f:
-        f.write(html)
+      urllib.urlretrieve(url, download_path, _DownloadStatusHook)
     except IOError:
       print ('\nERROR:\n'
              'Could not download %s.\n' % url
