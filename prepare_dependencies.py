@@ -967,16 +967,19 @@ class GLogPackageInstaller(PackageInstaller):
       with open(c_file, 'r') as f:
         old_text = f.read()
         text = old_text.replace('ac_cv_have_libgflags=1',
-                              'ac_cv_have_libgflags=0')
+                                'ac_cv_have_libgflags=0')
       with open(c_file, 'w') as f:
         f.write(text)
 
+    output = subprocess.Popen([
+      "aclocal --version|head -n1|grep -oE '[0-9]+.[0-9]+'"
+    ], stdout=subprocess.PIPE, shell=True).communicate()[0]
     ac_file = os.path.join(self._package_path, 'aclocal.m4')
     with open(ac_file, 'r') as f:
       old_text = f.read()
       text = old_text.replace(
         "am__api_version='1.14'",
-        "am__api_version=`aclocal --version|head -n1|grep -oE '[0-9]+.[0-9]+$'`"
+        "am__api_version='{}'".format(output)
       )
     with open(ac_file, 'w') as f:
       f.write(text)
@@ -984,6 +987,9 @@ class GLogPackageInstaller(PackageInstaller):
     install_shell_path = os.path.join(self._package_path, 'install-sh')
     st = os.stat(install_shell_path)
     os.chmod(install_shell_path, st.st_mode | stat.S_IEXEC)
+
+    os.chdir(self._package_path)
+    PackageInstaller.RunOrDie("automake")
 
     # remove_cygwin_paths = [
     # ]
