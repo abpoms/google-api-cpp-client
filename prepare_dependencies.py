@@ -316,7 +316,7 @@ class PackageInstaller(object):
 
     print 'Downloading %s from %s: ' % (filename, url)
     try:
-      req = urllib.Request(url)
+      req = urllib2.Request(url)
       req.add_header(
         'User-Agent',
         ('Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:38.0) '
