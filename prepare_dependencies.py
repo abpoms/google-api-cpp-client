@@ -56,6 +56,7 @@ import subprocess
 import sys
 import tarfile
 import urllib
+import ssl
 import zipfile
 
 COMPILED_MARKER = '_built'
@@ -304,7 +305,9 @@ class PackageInstaller(object):
 
     print 'Downloading %s from %s: ' % (filename, url)
     try:
-      urllib.urlretrieve(url, download_path, _DownloadStatusHook)
+      context = ssl._create_unverified_context()
+      urllib.urlretrieve(url, download_path, _DownloadStatusHook,
+                         context=context)
     except IOError:
       print ('\nERROR:\n'
              'Could not download %s.\n' % url
