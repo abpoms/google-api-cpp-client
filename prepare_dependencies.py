@@ -304,12 +304,12 @@ class PackageInstaller(object):
 
     print 'Downloading %s from %s: ' % (filename, url)
     try:
-      if hasattr(ssl, "_create_unverified_context"):
-        context = ssl._create_unverified_context()
-      else:
+      if sys.version_info >= (2, 7, 9):
         context = ssl.create_default_context()
         context.check_hostname = False
         context.verify_mode = ssl.CERT_NONE
+      else:
+        context = None
       urllib.urlretrieve(url, download_path, _DownloadStatusHook,
                          context=context)
     except IOError:
