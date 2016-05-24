@@ -75,7 +75,6 @@ AUTO_CONFIG = 'auto'
 CONFIGURE_CONFIG = 'configure'
 CMAKE_CONFIG = 'cmake'
 
-
 class ConfigInfo(object):
   """Configuration information for how to build the dependencies."""
 
@@ -305,7 +304,12 @@ class PackageInstaller(object):
 
     print 'Downloading %s from %s: ' % (filename, url)
     try:
-      context = ssl._create_unverified_context()
+      if hasattr(ssl, "_create_unverified_context"):
+        context = ssl._create_unverified_context()
+      else:
+        context = ssl.create_default_context()
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
       urllib.urlretrieve(url, download_path, _DownloadStatusHook,
                          context=context)
     except IOError:
