@@ -308,10 +308,10 @@ class PackageInstaller(object):
         context = ssl.create_default_context()
         context.check_hostname = False
         context.verify_mode = ssl.CERT_NONE
+        urllib.urlretrieve(url, download_path, _DownloadStatusHook,
+                           context=context)
       else:
-        context = None
-      urllib.urlretrieve(url, download_path, _DownloadStatusHook,
-                         context=context)
+        urllib.urlretrieve(url, download_path, _DownloadStatusHook)
     except IOError:
       print ('\nERROR:\n'
              'Could not download %s.\n' % url
