@@ -26,3 +26,5 @@ target_link_libraries(google_storage_api googleapis_http)
 target_link_libraries(google_storage_api googleapis_internal)
 target_link_libraries(google_storage_api googleapis_jsoncpp)
 target_link_libraries(google_storage_api googleapis_utils)
+
+install(TARGETS google_storage_api DESTINATION ${GOOGLEAPIS_INSTALL_LIB_DIR})
