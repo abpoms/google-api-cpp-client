@@ -22,7 +22,7 @@ set(GOOGLEAPIS_INSTALL_INCLUDE_DIR
 
 # BUILD_SHARED_LIBS is a standard CMake variable, but we declare it here to
 # make it prominent since we are turning it off by default.
-option(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." ON)
+option(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)
 option(gtest_force_shared_crt "Force Gmock to use standard compiler flags" ON)
 
 option(googleapis_build_tests "Build all of googleapis' own tests." OFF)
@@ -37,6 +37,7 @@ endif()
 find_package(Threads)
 find_package(curl)
 find_package(gflags)
+find_package(OpenSSL REQUIRED)
 
 if (MSVC)
   option(gtest_force_shared_crt "Force Gmock to use standard compiler flags" ON)
@@ -69,11 +70,14 @@ include_directories(
     ${GLOG_INCLUDE_DIRS}
     ${GTEST_INCLUDE_DIRS}
     ${JSONCPP_INCLUDE_DIRS}
+    ${OPENSSL_INCLUDE_DIR}
     ${OTHER_INCLUDE_DIRS}
     )
 
 link_directories("${GOOGLEAPIS_EXTERNAL_DEPENDENCIES_DIR}/lib"
-                 "${GOOGLEAPIS_INSTALL_LIB_DIR}")
+                 "${GOOGLEAPIS_INSTALL_LIB_DIR}"
+                 "${OPENSSL_LIBRARIES}"
+  )
 
 set(CMAKE_REQUIRED_INCLUDES "${GOOGLEAPIS_EXTERNAL_DEPENDENCIES_DIR}/include")
 include("introspect.cmake")
