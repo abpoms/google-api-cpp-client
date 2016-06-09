@@ -12,6 +12,8 @@ set(googleapis_VERSION_DECORATOR "devel")
 
 enable_testing()
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(GOOGLEAPIS_INSTALL_BASE_DIR ${CMAKE_INSTALL_PREFIX})
@@ -25,7 +27,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)
 option(gtest_force_shared_crt "Force Gmock to use standard compiler flags" ON)
 
 option(googleapis_build_tests "Build all of googleapis' own tests." OFF)
-option(googleapis_build_samples "Build googleapis sample programs." OFF)
+option(googleapis_build_samples "Build googleapis sample programs." ON)
 option(googleapis_build_service_apis "Build specialized service APIs." ON)
 option(googleapis_build_mongoose "Build mongoose webserver APIs." OFF)
 
@@ -35,7 +37,8 @@ endif()
 
 find_package(Threads)
 find_package(curl)
-find_package(gflags)
+find_package(GFlags)
+find_package(Glog)
 find_package(OpenSSL REQUIRED)
 
 if (MSVC)
@@ -45,12 +48,8 @@ if (MSVC)
                   -D_UNICODE -DUNICODE
                   -DGFLAGS_DLL_DECL= -DGFLAGS_DLL_DEFINE_FLAG=
                   -D_VARIADIC_MAX=10 -DGLOG_NO_ABBREVIATED_SEVERITIES)
-  set(GLOG_LIBRARY libglog)
-  set(GFLAGS_LIBRARY libgflags)
   set(CURL_LIBRARY libcurl_imp)
 else()
-  set(GLOG_LIBRARY glog)
-  set(GFLAGS_LIBRARY gflags)
   set(CURL_LIBRARY curl)
   set(CMAKE_STANDARD_LIBRARIES ${CMAKE_STANDARD_LIBRARIES} pthread)
 endif()
