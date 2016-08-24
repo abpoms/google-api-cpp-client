@@ -13,6 +13,10 @@ include(FindPackageHandleStandardArgs)
 
 set(GFLAGS_ROOT_DIR "" CACHE PATH "Folder contains Gflags") 
 
+if (NOT "$ENV{GFlags_DIR}" STREQUAL "")
+  set(GFLAGS_ROOT_DIR $ENV{GFlags_DIR})
+endif()
+
 # We are testing only a couple of files in the include directories
 if(WIN32)
     find_path(GFLAGS_INCLUDE_DIR gflags/gflags.h

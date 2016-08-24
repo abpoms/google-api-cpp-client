@@ -12,6 +12,10 @@ include(FindPackageHandleStandardArgs)
 
 set(GLOG_ROOT_DIR "" CACHE PATH "Folder contains Google glog")
 
+if (NOT "$ENV{Glog_DIR}" STREQUAL "")
+  set(GLOG_ROOT_DIR $ENV{Glog_DIR})
+endif()
+
 if(WIN32)
     find_path(GLOG_INCLUDE_DIR glog/logging.h
         PATHS ${GLOG_ROOT_DIR}/src/windows)

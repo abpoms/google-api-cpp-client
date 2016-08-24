@@ -670,6 +670,9 @@ class OAuth2AuthorizationFlow {
 
   void set_is_service(bool service) { service_ = service; }
 
+  /*
+   * Returns true if flow will check email addresses, false otherwise.
+   */
   bool is_service() const         { return service_; }
 
 
